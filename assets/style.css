@@ -12,7 +12,9 @@ img{max-width:100%;height:auto;display:block}
 nav{display:flex;gap:18px}
 nav a{font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none}
 nav a:hover{color:var(--ink)}
+.lang{display:flex;gap:4px}
 .lang a{font:500 12px var(--mono);border:1px solid var(--line);padding:5px 10px;color:var(--ink);text-decoration:none}
+.lang a[aria-current=true]{background:var(--ice);border-color:var(--ice);color:#000}
 .hero{padding:48px 0 56px}
 .hgrid{display:grid;grid-template-columns:1.1fr 1fr;gap:40px;align-items:center}
 .eyebrow{font:500 12px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--ice);margin:0 0 12px}
