@@ -2,4 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url><loc>https://thevindicators.it/</loc><xhtml:link rel="alternate" hreflang="it" href="https://thevindicators.it/"/><xhtml:link rel="alternate" hreflang="en" href="https://thevindicators.it/en/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://thevindicators.it/"/></url>
   <url><loc>https://thevindicators.it/en/</loc><xhtml:link rel="alternate" hreflang="it" href="https://thevindicators.it/"/><xhtml:link rel="alternate" hreflang="en" href="https://thevindicators.it/en/"/><xhtml:link rel="alternate" hreflang="x-default" href="https://thevindicators.it/"/></url>
+  <url><loc>https://thevindicators.it/videos</loc><xhtml:link rel="alternate" hreflang="it" href="https://thevindicators.it/videos"/><xhtml:link rel="alternate" hreflang="en" href="https://thevindicators.it/en/videos"/><xhtml:link rel="alternate" hreflang="x-default" href="https://thevindicators.it/videos"/></url>
+  <url><loc>https://thevindicators.it/en/videos</loc><xhtml:link rel="alternate" hreflang="it" href="https://thevindicators.it/videos"/><xhtml:link rel="alternate" hreflang="en" href="https://thevindicators.it/en/videos"/><xhtml:link rel="alternate" hreflang="x-default" href="https://thevindicators.it/videos"/></url>
 </urlset>
