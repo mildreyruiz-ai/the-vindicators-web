@@ -317,3 +317,21 @@ footer nav{display:flex;gap:6px 18px;flex-wrap:wrap}
 .tile:hover b{color:#000}.tile:hover span{color:#3a3a3a}
 .tracks li[data-mp3] .nm,.tracks li[data-yt] .nm{cursor:pointer}
 .tracks li[data-mp3] .nm:hover,.tracks li[data-yt] .nm:hover{color:var(--tape);text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:4px}
+
+/* FAQ (story) */
+.faq{margin:2.4rem 0 1.6rem;max-width:68ch}
+.faq h2{font-size:1.6rem;margin:0 0 .6rem}
+.faq h3{font-family:var(--lab);font-weight:700;font-size:1.08rem;text-transform:none;letter-spacing:0;line-height:1.3;margin:1.3rem 0 .25rem}
+.faq p{margin:0}
+
+/* Contact form */
+.contactgrid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:48px;align-items:start}
+.cform p{margin:0 0 16px}
+.cform label{display:block;font:700 .8rem/1.4 var(--lab);letter-spacing:.14em;text-transform:uppercase;color:var(--tape);margin-bottom:6px}
+.cform input,.cform textarea{width:100%;background:var(--ink2);border:1px solid var(--line);color:var(--paper);font:400 1rem/1.5 var(--body);padding:12px 14px;border-radius:0}
+.cform input:focus,.cform textarea:focus{outline:2px solid var(--tape);outline-offset:1px}
+.cform button{cursor:pointer}
+.cnote{color:var(--muted);font-size:.9rem}
+.cinfo h3{font:700 .8rem/1.4 var(--lab);letter-spacing:.14em;text-transform:uppercase;color:var(--tape);margin:0 0 8px}
+.cinfo p{margin:0 0 24px;line-height:1.9}
+@media(max-width:800px){.contactgrid{grid-template-columns:1fr;gap:28px}}
