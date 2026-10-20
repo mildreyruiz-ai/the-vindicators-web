@@ -244,6 +244,8 @@ function ftProtectNames(root) {
       f.referrerPolicy = 'strict-origin-when-cross-origin'; f.allowFullscreen = true;
       b.replaceChildren(f);
     });
+    var t = b.parentNode.querySelector('h3 a');
+    if (t && !isLocal) t.addEventListener('click', function (e) { e.preventDefault(); if (!b.querySelector('iframe')) b.click(); });
   });
 })();
 
