@@ -269,3 +269,47 @@ var v=function(i){return (document.getElementById(i).value||'').trim()};
 var sub=v('cf-subject')||'The Vindicators';
 var body=v('cf-msg')+'\n\n'+v('cf-name')+'\n'+v('cf-email');
 location.href='mailto:The%20Vindicators%20%3Cchichoi60@gmail.com%3E?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body);});})();
+
+/* Year rail: sticky under the header, scroll-spy, overflow arrows */
+(function () {
+  var tl = document.querySelector('.yrs'), bar = document.querySelector('.top');
+  if (!tl || !bar) return;
+  function setH() { document.documentElement.style.setProperty('--barh', bar.offsetHeight + 'px'); }
+  setH(); window.addEventListener('resize', setH);
+  if ('ResizeObserver' in window) new ResizeObserver(setH).observe(bar);
+  var links = [].slice.call(tl.querySelectorAll('a'));
+  var secs = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); }).filter(Boolean);
+  var ol = tl.querySelector('ol'), box = tl.querySelector('.wrap'), raf = 0, lastCur = null;
+  var IT = document.documentElement.lang === 'it';
+  var aL = document.createElement('button'), aR = document.createElement('button');
+  [[aL, -1, 'l', 'M15 4l-8 8 8 8', IT ? 'Anni precedenti' : 'Earlier years'], [aR, 1, 'r', 'M9 4l8 8-8 8', IT ? 'Anni successivi' : 'Later years']].forEach(function (x) {
+    var b = x[0]; b.type = 'button'; b.className = 'yrs-arr ' + x[2]; b.setAttribute('aria-label', x[4]);
+    b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="' + x[3] + '"/></svg>';
+    b.addEventListener('click', function () { ol.scrollBy({ left: x[1] * ol.clientWidth * 0.7, behavior: 'smooth' }); });
+    box.appendChild(b);
+  });
+  function arrows() {
+    var max = ol.scrollWidth - ol.clientWidth;
+    aL.classList.toggle('on', ol.scrollLeft > 4); aR.classList.toggle('on', ol.scrollLeft < max - 4);
+    aL.tabIndex = aL.classList.contains('on') ? 0 : -1; aR.tabIndex = aR.classList.contains('on') ? 0 : -1;
+  }
+  ol.addEventListener('scroll', arrows, { passive: true });
+  window.addEventListener('resize', arrows);
+  if ('ResizeObserver' in window) new ResizeObserver(arrows).observe(ol);
+  function follow() {
+    var a = links.filter(function (l) { return l.getAttribute('aria-current') === 'true'; })[0];
+    if (!a || a === lastCur) return; lastCur = a;
+    var li = a.parentNode, target = li.offsetLeft - (ol.clientWidth - li.offsetWidth) / 2;
+    ol.scrollTo({ left: Math.max(0, target), behavior: 'smooth' });
+  }
+  function mark() {
+    raf = 0;
+    var line = bar.offsetHeight + tl.offsetHeight + 110, cur = null;
+    secs.forEach(function (s) { if (s.getBoundingClientRect().top <= line) cur = s.id; });
+    links.forEach(function (a) { a.setAttribute('aria-current', cur && a.getAttribute('href') === '#' + cur ? 'true' : 'false'); });
+    follow();
+  }
+  function req() { if (!raf) raf = requestAnimationFrame(mark); }
+  window.addEventListener('scroll', req, { passive: true }); window.addEventListener('resize', req);
+  arrows(); mark();
+})();

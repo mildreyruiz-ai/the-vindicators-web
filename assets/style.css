@@ -300,7 +300,7 @@ footer nav{display:flex;gap:6px 18px;flex-wrap:wrap}
   .nextdate{max-width:none;width:100%}
   .hero-slide:nth-child(2) img{object-position:84% 60%}
   .hero-slide:nth-child(5) img{object-position:8% 0}
-  .hero-slide:nth-child(7) img{object-position:14% 0}
+  .hero-slide:nth-child(7) img{object-position:2% 0}
 }
 
 .dlg-body header .sleeve{width:130px}
@@ -354,3 +354,65 @@ footer nav{display:flex;gap:6px 18px;flex-wrap:wrap}
 .sm-ctl button{width:44px;height:44px;border:2px solid var(--tape);background:rgba(0,0,0,.6);color:var(--tape);font:700 1.1rem/1 var(--lab);cursor:pointer}
 .sm-ctl button:hover{background:var(--tape);color:#000}
 @media (max-width:700px){.sm-stage{height:min(46vh,380px)}.sm-ctl{right:8px;top:8px}}
+
+/* Polaroid timeline */
+.pl-h{margin:clamp(36px,6vw,64px) 0 4px}
+.pl-sub{margin:0 0 28px;color:#5b574c;font:600 1rem var(--lab);letter-spacing:.12em;text-transform:uppercase}
+.pl-tl{list-style:none;margin:0;padding:18px 0 0;position:relative}
+.pl-tl::before{content:"";position:absolute;top:0;bottom:0;left:50%;margin-left:-1.5px;border-left:3px dashed var(--ink)}
+.pl{display:grid;grid-template-columns:minmax(0,1fr) 60px minmax(0,1fr);align-items:center;margin:0 0 54px;position:relative}
+.pl-knot{grid-column:2;grid-row:1;justify-self:center;width:22px;height:22px;background:var(--tape);border:4px solid var(--ink);transform:rotate(45deg);position:relative;z-index:1}
+.pl-txt{grid-row:1;padding:0 8px}
+.pl-txt p{margin:0;font-size:1rem;line-height:1.6}
+.pl-y{display:block;font:400 clamp(2.2rem,5vw,3.2rem)/1 var(--head);color:var(--ink);margin-bottom:6px;letter-spacing:.02em}
+.pl-card{grid-row:1;margin:0;position:relative;width:min(100%,330px)}
+.pl-card.wide{width:min(100%,420px)}
+.pl-card button{display:block;width:100%;background:#fff;border:0;padding:14px 14px 0;cursor:pointer;color:#111;text-align:left;box-shadow:0 10px 24px rgba(0,0,0,.4);transform:rotate(var(--tilt,-2deg));transition:transform .25s ease;position:relative}
+.pl-card button::before{content:"";position:absolute;top:-13px;left:50%;width:92px;height:26px;margin-left:-46px;background:rgba(255,213,0,.9);transform:rotate(-3deg);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.pl-card button:hover{transform:rotate(0) scale(1.03)}
+.pl-card img{display:block;width:100%;aspect-ratio:1;object-fit:cover;background:#222;filter:contrast(1.04)}
+.pl-card.wide img{aspect-ratio:3/2}
+.pl-card .cap{display:block;padding:12px 2px 16px;font:700 1.15rem/1.2 var(--lab);letter-spacing:.05em;text-transform:uppercase;color:#000}
+.pl-r .pl-txt{grid-column:1;text-align:right}
+.pl-r .pl-card{grid-column:3;justify-self:start;--tilt:2.2deg}
+.pl-l .pl-card{grid-column:1;justify-self:end;--tilt:-2.2deg}
+.pl-l .pl-txt{grid-column:3;text-align:left}
+.pl:nth-child(4n+3) .pl-card{--tilt:-1.2deg}.pl:nth-child(4n+4) .pl-card{--tilt:1.4deg}
+.pl-e{display:flex;justify-content:center;margin:0 0 26px;position:relative;z-index:1}
+.pl-y2{display:inline-block;background:var(--ink);color:var(--tape);font:700 .95rem/1 var(--lab);letter-spacing:.14em;padding:6px 12px}
+/* cord from knot to card */
+.pl-card::after{content:"";position:absolute;top:50%;width:46px;border-top:3px dashed var(--ink)}
+.pl-r .pl-card::after{right:100%;margin-right:-0px}.pl-l .pl-card::after{left:100%}
+.pl-r .pl-card{margin-left:14px}.pl-l .pl-card{margin-right:14px}
+@media (max-width:760px){
+  .pl-tl::before{left:15px;margin-left:0}
+  .pl{grid-template-columns:30px minmax(0,1fr);margin-bottom:44px;align-items:start}
+  .pl-knot{grid-column:1;grid-row:1 / span 2;justify-self:start;margin:12px 0 0 4px}
+  .pl-card,.pl-r .pl-card,.pl-l .pl-card{grid-column:2;grid-row:1;justify-self:start;margin:10px 0 18px;width:min(100%,360px)}
+  .pl-card.wide,.pl-r .pl-card.wide,.pl-l .pl-card.wide{width:min(100%,420px)}
+  .pl-card::after{display:none}
+  .pl-e{justify-content:flex-start;padding-left:0;margin-left:-17px}
+  .pl-txt,.pl-r .pl-txt,.pl-l .pl-txt{grid-column:2;grid-row:2;text-align:left;padding:0}
+}
+@media (prefers-reduced-motion:reduce){.pl-card button{transition:none;transform:none}.pl-card button:hover{transform:none}}
+/* Year rail */
+.yrs{position:sticky;top:var(--barh,78px);z-index:40;background:rgba(0,0,0,.94);backdrop-filter:blur(8px);border-bottom:2px solid var(--tape)}
+.yrs .wrap{position:relative;display:block;padding-block:0}
+.yrs ol{list-style:none;margin:0;padding:0;display:flex;justify-content:space-between;gap:4px;position:relative;overflow-x:auto;scrollbar-width:none}
+.yrs ol::-webkit-scrollbar{display:none}
+.yrs ol::before{content:"";position:absolute;left:0;right:0;top:15px;height:2px;background:var(--line)}
+.yrs li{flex:1 1 0;min-width:62px;display:flex;justify-content:center;position:relative}
+.yrs a{display:flex;flex-direction:column;align-items:center;gap:5px;padding:8px 8px 9px;color:var(--muted);text-decoration:none;font:700 .95rem/1 var(--lab);letter-spacing:.12em}
+.yrs a::before{content:"";width:13px;height:13px;background:#000;border:3px solid var(--muted);transform:rotate(45deg);box-sizing:border-box;position:relative;z-index:1;transition:background .2s,border-color .2s,transform .2s}
+.yrs a:hover{color:var(--paper)}.yrs a:hover::before{border-color:var(--paper)}
+.yrs a[aria-current=true]{color:var(--tape)}
+.yrs a[aria-current=true]::before{background:var(--tape);border-color:var(--tape);transform:rotate(45deg) scale(1.25)}
+.yrs a:focus-visible{outline:3px solid var(--tape);outline-offset:-3px}
+.yrs-arr{position:absolute;top:0;bottom:0;width:44px;display:flex;align-items:center;border:0;margin:0;padding:0;cursor:pointer;color:var(--tape);z-index:3;opacity:0;pointer-events:none;transition:opacity .2s;background:none}
+.yrs-arr.on{opacity:1;pointer-events:auto}
+.yrs-arr svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.yrs-arr.l{left:0;justify-content:flex-start;padding-left:4px;background:linear-gradient(90deg,#000 35%,rgba(0,0,0,0))}
+.yrs-arr.r{right:0;justify-content:flex-end;padding-right:4px;background:linear-gradient(270deg,#000 35%,rgba(0,0,0,0))}
+.yrs-arr:hover{background-color:transparent;color:#fff}
+.event[id^=y],.pl[id^=y]{scroll-margin-top:130px}
+@media (max-width:900px){.event[id^=y],.pl[id^=y]{scroll-margin-top:140px}}
