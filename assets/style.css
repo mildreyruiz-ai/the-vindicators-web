@@ -298,6 +298,9 @@ footer nav{display:flex;gap:6px 18px;flex-wrap:wrap}
   .hero-copy h1{font-size:clamp(2.4rem,13vw,3.4rem)}
   .hero-ctl{right:8px;top:8px}
   .nextdate{max-width:none;width:100%}
+  .hero-slide:nth-child(2) img{object-position:84% 60%}
+  .hero-slide:nth-child(5) img{object-position:8% 0}
+  .hero-slide:nth-child(7) img{object-position:14% 0}
 }
 
 .dlg-body header .sleeve{width:130px}
