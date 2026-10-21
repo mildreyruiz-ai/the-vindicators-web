@@ -96,6 +96,20 @@ function ftProtectNames(root) {
     show(0); start();
   }
 
+  /* ---------- stop-motion hero (photos page) ---------- */
+  var sm = document.querySelector('[data-sm]');
+  if (sm) {
+    var vid = sm.querySelector('video'), sb = sm.querySelector('.sm-ctl button');
+    function smSet(on) {
+      if (on) { var p = vid.play(); if (p && p.catch) p.catch(function () {}); } else { vid.pause(); }
+      sb.textContent = on ? '❚❚' : '▶';
+      sb.setAttribute('aria-label', on ? sb.dataset.pause : sb.dataset.play);
+    }
+    sb.addEventListener('click', function () { smSet(vid.paused); });
+    if (reduce.matches) { vid.removeAttribute('autoplay'); smSet(false); }
+    document.addEventListener('visibilitychange', function () { if (document.hidden) vid.pause(); else if (!reduce.matches && sb.textContent === '❚❚') vid.play().catch(function () {}); });
+  }
+
   /* ---------- lightbox ---------- */
   var lb = null, lbItems = [], lbI = 0, lbOpener = null;
   function buildLb() {
