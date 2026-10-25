@@ -17,3 +17,5 @@
   Cache-Control: public, max-age=604800
 /assets/audio/*
   Cache-Control: public, max-age=604800
+/assets/video/*
+  Cache-Control: public, max-age=604800

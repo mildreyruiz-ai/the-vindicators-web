@@ -416,3 +416,18 @@ footer nav{display:flex;gap:6px 18px;flex-wrap:wrap}
 .yrs-arr:hover{background-color:transparent;color:#fff}
 .event[id^=y],.pl[id^=y]{scroll-margin-top:130px}
 @media (max-width:900px){.event[id^=y],.pl[id^=y]{scroll-margin-top:140px}}
+
+/* intro video above the footer, taped at the corners with yellow gaffer */
+#intro-video{padding:clamp(40px,6vw,72px) 0 clamp(44px,7vw,84px);overflow-x:clip}
+.introbox{position:relative;background:#000;box-shadow:0 14px 30px rgba(0,0,0,.55),0 0 0 1px #000}
+.introbox video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#000}
+.introbox .v-tall{display:none}
+.gaf{position:absolute;z-index:2;width:clamp(78px,11vw,128px);height:clamp(24px,3.2vw,34px);pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.22),rgba(255,255,255,0) 40%,rgba(0,0,0,.14)),repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 2px,rgba(255,255,255,.05) 2px 4px),#e3bf1c;
+  opacity:.94;box-shadow:0 2px 5px rgba(0,0,0,.45);
+  clip-path:polygon(0 0,3% 12%,0 26%,3% 40%,0 56%,3% 70%,0 84%,3% 100%,100% 100%,97% 86%,100% 70%,97% 55%,100% 40%,97% 26%,100% 12%,97% 0)}
+.gaf.tl{left:calc(clamp(78px,11vw,128px) * -.28);top:calc(clamp(24px,3.2vw,34px) * -.2);transform:rotate(-38deg)}
+.gaf.tr{right:calc(clamp(78px,11vw,128px) * -.28);top:calc(clamp(24px,3.2vw,34px) * -.2);transform:rotate(38deg)}
+.gaf.bl{left:calc(clamp(78px,11vw,128px) * -.28);bottom:calc(clamp(24px,3.2vw,34px) * -.2);transform:rotate(38deg)}
+.gaf.br{right:calc(clamp(78px,11vw,128px) * -.28);bottom:calc(clamp(24px,3.2vw,34px) * -.2);transform:rotate(-38deg)}
+@media(max-width:700px){.introbox .v-wide{display:none}.introbox .v-tall{display:block;width:100%;height:auto;aspect-ratio:9/16;background:#000}.introbox{margin-inline:10px}}
