@@ -431,3 +431,9 @@ footer nav{display:flex;gap:6px 18px;flex-wrap:wrap}
 .gaf.bl{left:calc(clamp(78px,11vw,128px) * -.28);bottom:calc(clamp(24px,3.2vw,34px) * -.2);transform:rotate(38deg)}
 .gaf.br{right:calc(clamp(78px,11vw,128px) * -.28);bottom:calc(clamp(24px,3.2vw,34px) * -.2);transform:rotate(-38deg)}
 @media(max-width:700px){.introbox .v-wide{display:none}.introbox .v-tall{display:block;width:100%;height:auto;aspect-ratio:9/16;background:#000}.introbox{margin-inline:10px}}
+
+/* new video on the Video page: taped at the corners with yellow gaffer */
+#latest-video{overflow-x:clip;padding-top:22px!important;padding-bottom:18px}
+.tapebox{position:relative;box-shadow:0 14px 30px rgba(0,0,0,.55),0 0 0 1px #000}
+.tapebox .yt{display:block;width:100%}
+@media(max-width:700px){.tapebox{margin-inline:10px}}
