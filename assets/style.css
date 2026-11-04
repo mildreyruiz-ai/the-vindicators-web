@@ -6,7 +6,7 @@
   --head:"Anton","Impact","Haettenschweiler","Arial Narrow Bold",sans-serif;
   --lab:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
   --body:"Bitter",Georgia,"Times New Roman",serif;
-  --hazard:repeating-linear-gradient(-45deg,var(--tape) 0 14px,var(--ink) 14px 28px);
+  --hazard:repeating-linear-gradient(-45deg,#fff 0 14px,#000 14px 28px);
   --wrap:1120px;
 }
 *{box-sizing:border-box}
