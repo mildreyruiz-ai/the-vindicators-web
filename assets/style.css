@@ -442,3 +442,8 @@ footer nav{display:flex;gap:6px 18px;flex-wrap:wrap}
 .event .disc-h{margin-top:20px}
 .event .tracks.gal-tr{max-width:760px;margin-bottom:6px}
 .event .gal-tr .nm{color:var(--paper)}
+
+.news-photos{display:grid;grid-template-columns:1fr 1fr;gap:6px}.news-photos img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}.news-label{display:inline-block;margin:0 0 .6em;padding:2px 8px;background:#000;color:#fff;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}
+.news-soon{display:inline-block;margin:.4em 0 1em;padding:6px 12px;border:2px solid var(--ink);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.news-card+.news-card{margin-top:28px}
+.news-soon{margin-right:12px;vertical-align:middle}
