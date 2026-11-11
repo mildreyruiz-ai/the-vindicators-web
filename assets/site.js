@@ -313,3 +313,88 @@ location.href='mailto:The%20Vindicators%20%3Cchichoi60@gmail.com%3E?subject='+en
   window.addEventListener('scroll', req, { passive: true }); window.addEventListener('resize', req);
   arrows(); mark();
 })();
+
+/* ===== Analytics (Google Analytics 4) with cookie consent =====
+   Google's script is requested only after the visitor accepts. The choice is kept in localStorage (vn_consent).
+   Events: audio_play, video_start, click_listen, click_social, click_email, generate_lead (contact form). */
+(function () {
+  var GA_ID = 'G-N73GN6Z2SD';
+  if (!/^G-[A-Z0-9]{6,}$/.test(GA_ID) || GA_ID === 'G-XXXXXXXXXX') return;
+  if (location.protocol === 'file:') return;
+  var en = (document.documentElement.lang || 'it').slice(0, 2) === 'en';
+  var KEY = 'vn_consent';
+  function get() { try { return localStorage.getItem(KEY); } catch (e) { return null; } }
+  function set(v) { try { localStorage.setItem(KEY, v); } catch (e) {} }
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  window.gtag = gtag;
+  gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+  if (get() === 'granted') gtag('consent', 'update', { analytics_storage: 'granted' });
+  gtag('js', new Date());
+  gtag('config', GA_ID, { page_language: en ? 'en' : 'it' });
+  var loaded = false;
+  function load() { if (loaded) return; loaded = true; var s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID; document.head.appendChild(s); }
+  if (get() === 'granted') load();
+  function track(n, p) { try { gtag('event', n, p || {}); } catch (e) {} }
+
+  /* Cookie banner */
+  function banner() {
+    if (document.querySelector('.vnck')) return;
+    var T = en ? { t: 'We use statistics cookies (Google Analytics) only if you accept, to understand how the site is used.', p: 'Privacy policy', u: '/en/privacy', y: 'Accept', n: 'Decline' }
+               : { t: 'Usiamo cookie statistici (Google Analytics) solo se accetti, per capire come viene usato il sito.', p: 'Informativa sulla privacy', u: '/privacy', y: 'Accetta', n: 'Rifiuta' };
+    var st = document.createElement('style');
+    st.textContent = '.vnck{position:fixed;left:16px;bottom:16px;z-index:300;width:min(400px,calc(100vw - 32px));background:#0b0b0b;border:2px solid #FFD500;padding:14px 16px;color:#f3efe4;font:15px/1.45 "Bitter",Georgia,serif;box-shadow:0 10px 40px rgba(0,0,0,.6)}' +
+      '.vnck p{margin:0 0 12px}.vnck a{color:#FFD500}.vnck div{display:flex;gap:10px}' +
+      '.vnck button{flex:1;padding:9px 12px;font:700 16px/1 "Barlow Condensed","Arial Narrow",system-ui,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;background:#0b0b0b;color:#f3efe4;border:2px solid #f3efe4}' +
+      '.vnck button:hover,.vnck button:focus-visible{background:#FFD500;border-color:#FFD500;color:#000}' +
+      '@media(max-width:560px){.vnck{left:12px;right:12px;bottom:12px;width:auto}}';
+    document.head.appendChild(st);
+    var b = document.createElement('div'); b.className = 'vnck'; b.setAttribute('role', 'dialog'); b.setAttribute('aria-label', 'Cookie');
+    b.innerHTML = '<p>' + T.t + ' <a href="' + T.u + '">' + T.p + '</a>.</p><div><button type="button" data-v="granted">' + T.y + '</button><button type="button" data-v="denied">' + T.n + '</button></div>';
+    b.addEventListener('click', function (e) {
+      var bt = e.target.closest && e.target.closest('[data-v]'); if (!bt) return; var v = bt.getAttribute('data-v');
+      set(v); if (v === 'granted') { gtag('consent', 'update', { analytics_storage: 'granted' }); load(); } b.remove();
+    });
+    document.body.appendChild(b);
+  }
+  if (!get()) banner();
+  /* "Change my choice" link on the privacy page */
+  document.addEventListener('click', function (e) {
+    var r = e.target.closest && e.target.closest('[data-ck-reset]'); if (!r) return;
+    e.preventDefault(); try { localStorage.removeItem(KEY); } catch (x) {}
+    gtag('consent', 'update', { analytics_storage: 'denied' }); banner();
+  });
+
+  /* Events */
+  var once = {};
+  function txt(el) { return el ? el.textContent.replace(/\s+/g, ' ').trim().slice(0, 100) : ''; }
+  var LISTEN = [['spotify', /spotify\.com/], ['deezer', /deezer\.com/], ['apple_music', /music\.apple\.com|itunes\.apple\.com/], ['youtube', /youtube\.com|youtu\.be/], ['soundcloud', /soundcloud\.com/], ['bandcamp', /bandcamp\.com/], ['amazon', /amazon\.|music\.amazon/], ['tidal', /tidal\.com/]];
+  var SOCIAL = [['facebook', /facebook\.com/], ['instagram', /instagram\.com/], ['tiktok', /tiktok\.com/], ['x', /twitter\.com|\/\/x\.com/]];
+  document.addEventListener('click', function (e) {
+    var t = e.target; if (!t.closest) return;
+    /* Records: a track row plays its own mp3 or a YouTube clip */
+    var row = (t.closest('.tracks .play') || t.closest('.tracks .nm')) && t.closest('li');
+    if (row) {
+      var name = txt(row.querySelector('.nm'));
+      if (row.dataset.mp3) { if (!once['a' + row.dataset.mp3]) { once['a' + row.dataset.mp3] = 1; track('audio_play', { track: name, player: 'site' }); } }
+      else if (row.dataset.yt && !once['v' + row.dataset.yt]) { once['v' + row.dataset.yt] = 1; track('video_start', { video_id: row.dataset.yt, video_title: name }); }
+    }
+    var yt = t.closest('.yt');
+    if (yt) { var v = yt.getAttribute('data-id') || ''; if (v && !once['v' + v]) { once['v' + v] = 1; track('video_start', { video_id: v, video_title: (yt.getAttribute('aria-label') || '').replace(/^[^:]*:\s*/, '').slice(0, 100) }); } }
+    var a = t.closest('a[href]'); if (!a) return;
+    var h = a.getAttribute('href') || '';
+    if (/^mailto:/i.test(h)) { track('click_email'); return; }
+    if (!/^https?:/i.test(h) || a.hostname === location.hostname) return;
+    for (var i = 0; i < LISTEN.length; i++) if (LISTEN[i][1].test(h)) { track('click_listen', { platform: LISTEN[i][0], link_url: h.slice(0, 200) }); return; }
+    for (var j = 0; j < SOCIAL.length; j++) if (SOCIAL[j][1].test(h)) { track('click_social', { platform: SOCIAL[j][0] }); return; }
+  }, true);
+  /* Self-hosted films (home, rehearsal room) */
+  document.addEventListener('play', function (e) {
+    var v = e.target; if (!v || v.tagName !== 'VIDEO' || !v.controls) return;
+    var s = (v.currentSrc || v.getAttribute('poster') || '').split('/').pop().replace(/\.[a-z0-9]+$/i, '');
+    if (!once['f' + s]) { once['f' + s] = 1; track('video_start', { video_id: 'site:' + s.slice(0, 80), video_title: (v.getAttribute('aria-label') || '').slice(0, 100) }); }
+  }, true);
+  /* Contact form (opens the visitor's email app) */
+  var cf = document.getElementById('cform');
+  if (cf) cf.addEventListener('submit', function () { track('generate_lead', { method: 'email' }); });
+})();
