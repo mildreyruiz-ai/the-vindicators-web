@@ -316,7 +316,8 @@ location.href='mailto:The%20Vindicators%20%3Cchichoi60@gmail.com%3E?subject='+en
 
 /* ===== Analytics (Google Analytics 4) with cookie consent =====
    Google's script is requested only after the visitor accepts. The choice is kept in localStorage (vn_consent).
-   Events: audio_play, video_start, click_listen, click_social, click_email, generate_lead (contact form). */
+   The site is an archive, so the events measure what people consult:
+   audio_play, video_start, photo_view, record_open, year_jump, press_click, click_related_site, click_listen, click_social, click_email, contact_form. */
 (function () {
   var GA_ID = 'G-N73GN6Z2SD';
   if (!/^G-[A-Z0-9]{6,}$/.test(GA_ID) || GA_ID === 'G-XXXXXXXXXX') return;
@@ -368,6 +369,8 @@ location.href='mailto:The%20Vindicators%20%3Cchichoi60@gmail.com%3E?subject='+en
   /* Events */
   var once = {};
   function txt(el) { return el ? el.textContent.replace(/\s+/g, ' ').trim().slice(0, 100) : ''; }
+  /* Year of the archive section an element sits in (sections are #y1986, #y1987...) */
+  function yearOf(el) { for (var n = el; n && n !== document; n = n.parentNode) { var m = n.id && /^y((?:19|20)\d\d)/.exec(n.id); if (m) return m[1]; } return ''; }
   var LISTEN = [['spotify', /spotify\.com/], ['deezer', /deezer\.com/], ['apple_music', /music\.apple\.com|itunes\.apple\.com/], ['youtube', /youtube\.com|youtu\.be/], ['soundcloud', /soundcloud\.com/], ['bandcamp', /bandcamp\.com/], ['amazon', /amazon\.|music\.amazon/], ['tidal', /tidal\.com/]];
   var SOCIAL = [['facebook', /facebook\.com/], ['instagram', /instagram\.com/], ['tiktok', /tiktok\.com/], ['x', /twitter\.com|\/\/x\.com/]];
   document.addEventListener('click', function (e) {
@@ -380,13 +383,24 @@ location.href='mailto:The%20Vindicators%20%3Cchichoi60@gmail.com%3E?subject='+en
       else if (row.dataset.yt && !once['v' + row.dataset.yt]) { once['v' + row.dataset.yt] = 1; track('video_start', { video_id: row.dataset.yt, video_title: name }); }
     }
     var yt = t.closest('.yt');
-    if (yt) { var v = yt.getAttribute('data-id') || ''; if (v && !once['v' + v]) { once['v' + v] = 1; track('video_start', { video_id: v, video_title: (yt.getAttribute('aria-label') || '').replace(/^[^:]*:\s*/, '').slice(0, 100) }); } }
+    if (yt) { var v = yt.getAttribute('data-id') || ''; if (v && !once['v' + v]) { once['v' + v] = 1; track('video_start', { video_id: v, video_title: (yt.getAttribute('aria-label') || '').replace(/^[^:]*:\s*/, '').slice(0, 100), year: yearOf(yt) || ((/\b((?:19|20)\d\d)\b/.exec(txt((yt.closest('.vid') || yt).querySelector('.meta'))) || [])[1] || '') }); } }
+    /* Archive: enlarged photos, opened records, jumps along the year rail */
+    var ph = t.closest('[data-lb]');
+    if (ph && !once['p' + ph.dataset.full]) { once['p' + ph.dataset.full] = 1; track('photo_view', { gallery: ph.dataset.lb, photo: (ph.dataset.cap || '').slice(0, 100), year: yearOf(ph) }); }
+    var rc = t.closest('[data-dlg]');
+    if (rc && !once['r' + rc.dataset.dlg]) { once['r' + rc.dataset.dlg] = 1; var dg = document.getElementById(rc.dataset.dlg), hd = dg && dg.querySelector('h2,h3'); track('record_open', { record: txt(hd) || rc.dataset.dlg }); }
+    var yr = t.closest('.yrs a');
+    if (yr) track('year_jump', { year: txt(yr) });
     var a = t.closest('a[href]'); if (!a) return;
     var h = a.getAttribute('href') || '';
     if (/^mailto:/i.test(h)) { track('click_email'); return; }
     if (!/^https?:/i.test(h) || a.hostname === location.hostname) return;
+    /* Links to the sister sites: which page and which part of it sends people there */
+    var rel = /(^|\.)frigidairetango\.com$/.test(a.hostname) ? 'frigidairetango.com' : /(^|\.)mildreyruiz\.com$/.test(a.hostname) ? 'mildreyruiz.com' : '';
+    if (rel) { track('click_related_site', { destination: rel, link_position: a.closest('footer') ? 'footer' : a.closest('header') ? 'header' : 'content' }); return; }
     for (var i = 0; i < LISTEN.length; i++) if (LISTEN[i][1].test(h)) { track('click_listen', { platform: LISTEN[i][0], link_url: h.slice(0, 200) }); return; }
     for (var j = 0; j < SOCIAL.length; j++) if (SOCIAL[j][1].test(h)) { track('click_social', { platform: SOCIAL[j][0] }); return; }
+    if (a.closest('.press')) track('press_click', { link_domain: a.hostname.replace(/^www\./, '') });
   }, true);
   /* Self-hosted films (home, rehearsal room) */
   document.addEventListener('play', function (e) {
@@ -396,5 +410,5 @@ location.href='mailto:The%20Vindicators%20%3Cchichoi60@gmail.com%3E?subject='+en
   }, true);
   /* Contact form (opens the visitor's email app) */
   var cf = document.getElementById('cform');
-  if (cf) cf.addEventListener('submit', function () { track('generate_lead', { method: 'email' }); });
+  if (cf) cf.addEventListener('submit', function () { track('contact_form'); });
 })();
